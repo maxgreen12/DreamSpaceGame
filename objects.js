@@ -34,13 +34,16 @@ var player={
     location:0,
     inventory:[],
     inIntro:false,
-    parallel:1000
+    parallel:1000,
+    bff: ''
 };
 
 var intros = [
     //intro(description,[functionId],buttonNames)
-    new intro("'ow.' Your head hurts.",[1,1,0,0], ['damn, it does...', 'wait, what happened?','none','none']), //0
-    new intro('that party must have gotten crazy!',[3,3,0,0],['what party?!', "yea... can't rember much...",'none','none']), //1
+    new intro('"ow." Your head hurts.',[1,1,0,0], ['damn, it does...', 'wait, what happened?','none','none']), //0
+    new intro('that party must have gotten crazy!',[3,3,0,0],['what party?!', "yea... can't remember much...",'none','none']), //1
+    new intro('oh yea... somethings missing.',[5,5,0,0],['oh yea.','oh yea?','none','none'] ), //2
+    new intro('damn! I need to find'+ player.bff +". Godamn, they're so slippery."),
     new intro("lots of white light",[2,2,2,2], ["kk",'none','none','none'])
 
 ];
@@ -90,10 +93,7 @@ var functions = [
     },
 
     function(){
-        //give item
-        player.inventory[player.inventory.length] = 'sword';
-        effectHappens(3);
-        console.log(player.inventory);
+        effectHappens(2);
         console.log('3 HAPPEND');
         reuse();
     },
@@ -108,24 +108,29 @@ var functions = [
         }
         console.log('4 happened');
     },
-
     function(){
-        player.location = 7;
-        introHappens();
+        player.bff = prompt('Who did you forget at that party?');
+        effectHappens(3);
         console.log('5happened');
         reuse();
-        console.log(findEffect().oneUse)
     },
 
-    function(roomnumber){
-        player.location = roomnumber;
+    function(roomNumber){
+        player.location = roomNumber;
         functions[2]();
         console.log('6happened');
         reuse();
     },
-    function(){
-        effectHappens(7);
+    function(introNumber){
+        effectHappens(introNumber);
         console.log('7happened');
         reuse();
     }
 ];
+// function(itemNameInQuotes,introNumber){
+//GIVE ITEM
+//player.inventory[player.inventory.length] = itemNameInQuotes;
+//effectHappens(introNumber);
+//console.log('3 HAPPEND');
+//reuse();
+//}
