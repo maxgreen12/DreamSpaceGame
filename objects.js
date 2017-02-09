@@ -35,7 +35,10 @@ var player={
     inventory:[],
     inIntro:false,
     parallel:1000,
-    bff: ''
+    bff: '',
+    findBff: function(){
+        return player.bff
+    }
 };
 
 var intros = [
@@ -43,20 +46,22 @@ var intros = [
     new intro('"ow." Your head hurts.',[1,1,0,0], ['damn, it does...', 'wait, what happened?','none','none']), //0
     new intro('that party must have gotten crazy!',[3,3,0,0],['what party?!', "yea... can't remember much...",'none','none']), //1
     new intro('oh yea... somethings missing.',[5,5,0,0],['oh yea.','oh yea?','none','none'] ), //2
-    new intro('damn! I need to find'+ player.bff +". Godamn, they're so slippery."),
-    new intro("lots of white light",[2,2,2,2], ["kk",'none','none','none'])
+    new intro('to be set',[2,2,0,0],["geuss I should go find 'em ","ugh. This means responsibility doesn't it...",'none','none']), //3
+    new intro("you step outside into a courtyard. The bright sun makes your head pound.",[2,2,2,2], ["where am I?",'what time is it?',"I'm hungry",'none']), //4
+    new intro("you reach into your pocket and fish out your phone. It's missing a screen.",[2,2,0,0],['why do bad things happen to good people.','to be set','none','none']), //5
+
 
 ];
 
 var rooms = [
     //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,img,mp3)
     new room(0,'there is an opening against the wall',['n',1,'n','n','n','n'],0,false),
-    new room(1,'you find yourself in a courtyard that has six rooms like yours surrounding it',[2,3,4,5,0,6],0,true)
+    new room(4,'you find yourself in a courtyard that has six rooms like yours surrounding it',[2,3,4,5,0,6],0,true)
 ];
 
 var effects = [
     //effect([functionId],buttonNames,oneUse)
-    new effect([0,0,0,0],['none','none','none','none'])
+    new effect([6,0,0,0],['pull out your phone','go back to sleep','none','none'],0)
 ];
 
 var functions = [
@@ -67,7 +72,6 @@ var functions = [
 
     function(){
         effectHappens(1);
-        reuse();
         console.log('1 HAPPEND');
     },
 
@@ -95,7 +99,6 @@ var functions = [
     function(){
         effectHappens(2);
         console.log('3 HAPPEND');
-        reuse();
     },
 
     function(itemInQuotes,introNumber){
@@ -108,20 +111,24 @@ var functions = [
         }
         console.log('4 happened');
     },
+
     function(){
         player.bff = prompt('Who did you forget at that party?');
+        console.log(intros[3]);
+        intros[3].description = 'damn! I need to find '+ player.bff + ". Dude, where did I leave them?";
+        console.log(intros[3]);
         effectHappens(3);
+        console.log(player.bff);
         console.log('5happened');
-        reuse();
     },
 
-    function(roomNumber){
-        player.location = roomNumber;
-        functions[2]();
+    function(){
+        intros[5].button[1] = 'I bet this was ' +player.bff+ "'s fault.";
+        effectHappens(5);
+        effects[0].button[0] = 'none';
         console.log('6happened');
-        reuse();
     },
-    function(introNumber){
+    function(){
         effectHappens(introNumber);
         console.log('7happened');
         reuse();
