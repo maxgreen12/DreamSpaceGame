@@ -51,6 +51,9 @@ $(document).ready(function(){
             if(findRoom().navigation[this.id] != 'n'){
                 $(this).show();
             }
+            if(findRoom().navigation[this.id] == 'barred door'){
+                document.getElementById(this.id).innerHTML = 'barred door'
+            }
         });
     });
 
@@ -59,26 +62,36 @@ $(document).ready(function(){
     });
 
     $('li').click(function(){
-        $('.options').hide();
-        player.location = findRoom().navigation[this.id];
-        if(findRoom().oldNew){
-            introHappens();
-            findRoom().oldNew = false;
-        }else{
-            $('#roomText').text(findRoom().description);
-//watch this fully: https://www.youtube.com/watch?v=52Gg9CqhbP8&index=16&list=RDwj9v7DNogp4
-            document.getElementById("6").innerHTML = findEffect().button[0];
-            document.getElementById("7").innerHTML = findEffect().button[1];
-            document.getElementById("8").innerHTML = findEffect().button[2];
-            document.getElementById("9").innerHTML = findEffect().button[3];
-            if(findEffect().oneUse != 2){
-                $('.options').each(function(){
-                    if(document.getElementById(this.id).innerHTML != 'none'){
-                        $(this).show();
+        if(document.getElementById(this.id).innerHTML != 'barred door'){
+            $('li').each(function() {
+                if(document.getElementById(this.id).innerHTML == 'barred door') {
+                    if(this.id == 0) {
+                        document.getElementById(this.id).innerHTML = 'left forward';
                     }
-                });
-            }
+                }
+            });
+            $('.options').hide();
+            player.location = findRoom().navigation[this.id];
+            if(findRoom().oldNew){
+                introHappens();
+                findRoom().oldNew = false;
+            }else{
+                $('#roomText').text(findRoom().description);
+                document.getElementById("6").innerHTML = findEffect().button[0];
+                document.getElementById("7").innerHTML = findEffect().button[1];
+                document.getElementById("8").innerHTML = findEffect().button[2];
+                document.getElementById("9").innerHTML = findEffect().button[3];
+                if(findEffect().oneUse != 2){
+                    $('.options').each(function(){
+                        if(document.getElementById(this.id).innerHTML != 'none'){
+                            $(this).show();
+                        }
+                    });
+                }
 
+            }
+        } else{
+            $('#roomText').text('that door is bared, dude.');
         }
     });
 });

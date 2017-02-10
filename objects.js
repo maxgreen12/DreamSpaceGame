@@ -47,20 +47,31 @@ var intros = [
     new intro('that party must have gotten crazy!',[3,3,0,0],['what party?!', "yea... can't remember much...",'none','none']), //1
     new intro('oh yea... somethings missing.',[5,5,0,0],['oh yea.','oh yea?','none','none'] ), //2
     new intro('to be set',[2,2,0,0],["geuss I should go find 'em ","ugh. This means responsibility doesn't it...",'none','none']), //3
-    new intro("you step outside into a courtyard. The bright sun makes your head pound.",[2,2,2,2], ["where am I?",'what time is it?',"I'm hungry",'none']), //4
+    new intro("you step outside into a courtyard. The bright sun makes your head pound.",[8,8,8,8], ["where am I?",'what time is it?',"I'm hungry",'none']), //4
     new intro("you reach into your pocket and fish out your phone. It's missing a screen.",[2,2,0,0],['why do bad things happen to good people.','to be set','none','none']), //5
-
+    new intro('blank',[2,2,2,2],['blank','none','none','none']),//6
+    new intro('blank',[2,2,2,2],['blank','none','none','none']),//7
+    new intro('blank',[2,2,2,2],['blank','none','none','none']),//8
+    new intro('blank',[2,2,2,2],['blank','none','none','none']),//9
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //10
+    new intro('blank',[2,2,2,2],['blank','none','none','none']) //11, this is the intro to the room you started in
 
 ];
 
 var rooms = [
     //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,img,mp3)
-    new room(0,'there is an opening against the wall',['n',1,'n','n','n','n'],0,false),
-    new room(4,'you find yourself in a courtyard that has six rooms like yours surrounding it',[2,3,4,5,0,6],0,true)
+    new room(0,'there is an opening against the wall',['n',1,'n','barred door','n','n'],1,false), //0
+    new room(4,'you find yourself in a courtyard that has six rooms surrounding it',[2,3,4,5,0,6],1,true), //1
+    new room(6,'',['n','n','n','n',1,'n'],0,true),
+    new room(7,'',['n','n','n','n',1,'n'],0,true),
+    new room(8,'',['n','n','n','n',1,'n'],0,true),
+    new room(9,'',['n','n','n','n',1,'n'],0,true),
+    new room(10,'',['n','n','n','n',1,'n'],0,true)
 ];
 
 var effects = [
     //effect([functionId],buttonNames,oneUse)
+    new effect([0,0,0,0],['none','none','none','none'],0),
     new effect([6,0,0,0],['pull out your phone','go back to sleep','none','none'],0)
 ];
 
@@ -132,6 +143,28 @@ var functions = [
         effectHappens(introNumber);
         console.log('7happened');
         reuse();
+    },
+    function(){
+        rooms[0].introId = 11;
+        rooms[0].oldNew = true;
+        $('#roomText').text(findRoom().description);
+        $('#navigation').show();
+        $('.options').hide();
+        player.inIntro = false;
+        document.getElementById("6").innerHTML = findEffect().button[0];
+        document.getElementById("7").innerHTML = findEffect().button[1];
+        document.getElementById("8").innerHTML = findEffect().button[2];
+        document.getElementById("9").innerHTML = findEffect().button[3];
+        $('.options').each(function(){
+            if(findEffect().oneUse != 2){
+                $('.options').each(function(){
+                    if(document.getElementById(this.id).innerHTML != 'none'){
+                        $(this).show();
+                    }
+                });
+            }
+        });
+        console.log('8 HAPPEND')
     }
 ];
 // function(itemNameInQuotes,introNumber){
