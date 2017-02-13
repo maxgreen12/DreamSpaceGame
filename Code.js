@@ -68,6 +68,21 @@ $(document).ready(function(){
                     if(this.id == 0) {
                         document.getElementById(this.id).innerHTML = 'left forward';
                     }
+                    if(this.id == 1) {
+                        document.getElementById(this.id).innerHTML = 'straight forward';
+                    }
+                    if(this.id == 2) {
+                        document.getElementById(this.id).innerHTML = 'right forward';
+                    }
+                    if(this.id == 3) {
+                        document.getElementById(this.id).innerHTML = 'right back';
+                    }
+                    if(this.id == 4) {
+                        document.getElementById(this.id).innerHTML = 'straight back';
+                    }
+                    if(this.id == 5) {
+                        document.getElementById(this.id).innerHTML = 'left back';
+                    }
                 }
             });
             $('.options').hide();

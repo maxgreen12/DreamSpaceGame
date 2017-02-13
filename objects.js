@@ -80,12 +80,10 @@ var functions = [
         $('.options').hide();
         console.log('0 HAPPEND');
     },
-
     function(){
         effectHappens(1);
         console.log('1 HAPPEND');
     },
-
     function(){
         $('#roomText').text(findRoom().description);
         $('#navigation').show();
@@ -104,14 +102,12 @@ var functions = [
                 });
             }
         });
-        console.log('2 HAPPEND')
+        console.log('2 HAPPEND');
     },
-
     function(){
         effectHappens(2);
         console.log('3 HAPPEND');
     },
-
     function(itemInQuotes,introNumber){
         //check item
         if ( $.inArray(itemInQuotes,player.inventory) > -1){
@@ -122,7 +118,6 @@ var functions = [
         }
         console.log('4 happened');
     },
-
     function(){
         player.bff = prompt('Who did you forget at that party?');
         console.log(intros[3]);
@@ -132,12 +127,11 @@ var functions = [
         console.log(player.bff);
         console.log('5happened');
     },
-
     function(){
         intros[5].button[1] = 'I bet this was ' +player.bff+ "'s fault.";
-        effectHappens(5);
-        effects[0].button[0] = 'none';
+        effects[1].button[0] = 'none';
         console.log('6happened');
+        effectHappens(5);
     },
     function(){
         effectHappens(introNumber);
