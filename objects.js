@@ -7,7 +7,7 @@ function room(introId,description,rooms,optionId,oldNew,img,mp3){
     this.navigation=rooms;
     this.options=optionId;
     this.oldNew=oldNew;
-    this.background=img;
+    this.img=img;
     this.music=mp3;
 }
 
@@ -60,13 +60,13 @@ var intros = [
 
 var rooms = [
     //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,img,mp3)
-    new room(0,'there is an opening against the wall',['n',1,'n','barred door','n','n'],1,false), //0
-    new room(4,'you find yourself in a courtyard that has six rooms surrounding it',[2,3,4,5,0,6],1,true), //1
-    new room(6,'',['n','n','n','n',1,'n'],0,true),
-    new room(7,'',['n','n','n','n',1,'n'],0,true),
-    new room(8,'',['n','n','n','n',1,'n'],0,true),
-    new room(9,'',['n','n','n','n',1,'n'],0,true),
-    new room(10,'',['n','n','n','n',1,'n'],0,true)
+    new room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
+    new room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,3,4,5,0,6],1,true,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
+    new room(6,'egyptian temple',['n','n','n','barred door',1,'barred door'],0,true),
+    new room(7,'exit',['n','n','n','barred door',1,'barred door'],0,true),
+    new room(8,'jungle house',['n','n','n','barred door',1,'barred door'],0,true),
+    new room(9,'arcade',['n','n','n','barred door',1,'barred door'],0,true),
+    new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],0,true)
 ];
 
 var effects = [
