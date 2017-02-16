@@ -1,14 +1,16 @@
 /**
  * Created by h205p2 on 12/15/16.
  */
-function room(introId,description,rooms,optionId,oldNew,img,mp3){
+function room(introId,description,rooms,optionId,oldNew,mirrorRoom,img,mp3){
     this.introId=introId;
     this.description=description;
     this.navigation=rooms;
     this.options=optionId;
     this.oldNew=oldNew;
+    this.mirrorRoom=mirrorRoom;
     this.img=img;
     this.music=mp3;
+
 }
 
 function intro(description,functionId,buttonNames){
@@ -36,9 +38,8 @@ var player={
     inIntro:false,
     parallel:1000,
     bff: '',
-    findBff: function(){
-        return player.bff
-    }
+    hasSoul: true,
+    mirrorLocation: 0
 };
 
 var intros = [
@@ -59,14 +60,21 @@ var intros = [
 ];
 
 var rooms = [
-    //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,img,mp3)
-    new room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
-    new room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,3,4,5,0,6],1,true,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
-    new room(6,'egyptian temple',['n','n','n','barred door',1,'barred door'],0,true,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
-    new room(7,'exit',['n','n','n','barred door',1,'barred door'],0,true,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
-    new room(8,'jungle temple',['n','n','n','barred door',1,'barred door'],0,true,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
-    new room(9,'arcade',['n','n','n','barred door',1,'barred door'],0,true,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
-    new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],0,true,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
+    //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,mirrorRoom,img,mp3)
+    new room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,8,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
+    new room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,3,4,5,0,6],1,true,9,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
+    new room(6,'egyptian temple',['n','n','n','barred door',1,'barred door'],1,true,10,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
+    new room(7,'exit',['n','n','n','barred door',1,'barred door'],1,true,11,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
+    new room(8,'jungle temple',['n','n','n','barred door',1,'barred door'],1,true,12,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
+    new room(9,'arcade',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
+    new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],1,true,14,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
+    new room(12,'start mirror',['barred door',9,'barred door','n','n','n'],1,true,0,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'),
+    new room(13,'courtyard mirror',[10,11,12,13,8,14],1,true,1,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'),
+    new room(14,'egyptian temple mirror',['barred door',9,'barred door','n','n','n'],1,true,2,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
+    new room(15,'exit mirror',['barred door',9,'barred door','n','n','n'],1,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
+    new room(16,'jungle temple mirror',['barred door',9,'barred door','n','n','n'],1,true,4,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
+    new room(17,'arcade mirror',['barred door',9,'barred door','n','n','n'],1,true,5,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
+    new room(18,'ice caves mirror',['barred door',9,'barred door','n','n','n'],1,true,6,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
 ];
 
 var effects = [
@@ -134,7 +142,34 @@ var functions = [
         effectHappens(5);
     },
     function(){
-        effectHappens(introNumber);
+        if(player.hasSoul){
+            player.location = findRoom().mirrorRoom;
+        }else{
+            player.location = player.mirrorLocation;
+        }
+        $('.options').hide();
+        player.location = findRoom().navigation[this.id];
+        var img = findRoom().img;
+        document.body.style.background = "url(" + img + ") ";
+        document.body.style.backgroundSize = 'cover';
+        if(findRoom().oldNew){
+            introHappens();
+            findRoom().oldNew = false;
+        }else{
+            $('#roomText').text(findRoom().description);
+            document.getElementById("6").innerHTML = findEffect().button[0];
+            document.getElementById("7").innerHTML = findEffect().button[1];
+            document.getElementById("8").innerHTML = findEffect().button[2];
+            document.getElementById("9").innerHTML = findEffect().button[3];
+            if(findEffect().oneUse != 2){
+                $('.options').each(function(){
+                    if(document.getElementById(this.id).innerHTML != 'none'){
+                        $(this).show();
+                    }
+                });
+            }
+
+        }
         console.log('7happened');
         reuse();
     },

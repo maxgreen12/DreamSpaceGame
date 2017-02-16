@@ -89,9 +89,7 @@ $(document).ready(function(){
             player.location = findRoom().navigation[this.id];
             var img = findRoom().img;
             document.body.style.background = "url(" + img + ") ";
-            console.log(findRoom().img);
             document.body.style.backgroundSize = 'cover';
-
             if(findRoom().oldNew){
                 introHappens();
                 findRoom().oldNew = false;
