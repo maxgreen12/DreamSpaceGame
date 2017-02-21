@@ -39,7 +39,8 @@ var player={
     parallel:1000,
     bff: '',
     hasSoul: true,
-    mirrorLocation: 0
+    mirrorLocation: 0,
+    inDream: false
 };
 
 var intros = [
@@ -55,32 +56,40 @@ var intros = [
     new intro("you walk into a humid environment. before you stands a tree that looks like it's holding the weight of the world. This place is ancient.",[2,2,2,2],['as ancient as grandma?','hey look, a fern.','none','none']),//8
     new intro("you feel like you just got put into tron. flashy lights and little beeps and boops fill the atmosphere. It's a lot to take in.",[2,2,2,2],['hey I have a quarter!',"what are these big boxes with screens for?",'none','none']),//9
     new intro("you open a door and it feels like you stepped through a portal. it's forty degrees colder and you can't feel your legs, but the sight of this place is almost worth it.",[2,2,2,2],['this place got a thermostat?',"dang. wish I hadn't gambled away my coat.",'none','none']), //10
-    new intro('blank',[2,2,2,2],['blank','none','none','none']) //11, this is the intro to the room you started in
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //11, this is the intro to the room you started in
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //12
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //13
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //14
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //15
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //16
+    new intro('blank',[2,2,2,2],['blank','none','none','none']), //17
+    new intro('blank',[2,2,2,2],['blank','none','none','none']) //18
 
 ];
 
 var rooms = [
     //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,mirrorRoom,img,mp3)
-    new room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,8,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
-    new room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,3,4,5,0,6],1,true,9,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
-    new room(6,'egyptian temple',['n','n','n','barred door',1,'barred door'],1,true,10,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
-    new room(7,'exit',['n','n','n','barred door',1,'barred door'],1,true,11,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
-    new room(8,'jungle temple',['n','n','n','barred door',1,'barred door'],1,true,12,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
-    new room(9,'arcade',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
-    new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],1,true,14,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
-    new room(12,'start mirror',['barred door',9,'barred door','n','n','n'],1,true,0,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'),
-    new room(13,'courtyard mirror',[10,11,12,13,8,14],1,true,1,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'),
-    new room(14,'egyptian temple mirror',['barred door',9,'barred door','n','n','n'],1,true,2,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
-    new room(15,'exit mirror',['barred door',9,'barred door','n','n','n'],1,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
-    new room(16,'jungle temple mirror',['barred door',9,'barred door','n','n','n'],1,true,4,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
-    new room(17,'arcade mirror',['barred door',9,'barred door','n','n','n'],1,true,5,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
-    new room(18,'ice caves mirror',['barred door',9,'barred door','n','n','n'],1,true,6,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
+    new room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,7,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
+    new room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,3,4,5,0,6],1,true,8,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
+    new room(6,'egyptian temple',['n','n','n','barred door',1,'barred door'],1,true,9,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
+    new room(7,'exit',['n','n','n','barred door',1,'barred door'],1,true,10,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
+    new room(8,'jungle temple',['n','n','n','barred door',1,'barred door'],1,true,11,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
+    new room(9,'arcade',['n','n','n','barred door',1,'barred door'],1,true,12,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
+    new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
+    new room(12,'start mirror',['n','n','n','barred door',8,'barred door'],1,true,0,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'),
+    new room(13,'courtyard mirror',[9,10,11,12,7,13],1,true,1,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'),
+    new room(14,'egyptian temple mirror',['n','n','n','barred door',8,'barred door'],1,true,2,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
+    new room(15,'exit mirror',['n','n','n','barred door',8,'barred door'],1,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
+    new room(16,'jungle temple mirror',['n','n','n','barred door',8,'barred door'],1,true,4,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
+    new room(17,'arcade mirror',['n','n','n','barred door',8,'barred door'],1,true,5,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
+    new room(18,'ice caves mirror',['n','n','n','barred door',8,'barred door'],1,true,6,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
 ];
 
 var effects = [
     //effect([functionId],buttonNames,oneUse)
     new effect([0,0,0,0],['none','none','none','none'],0),
-    new effect([6,0,0,0],['pull out your phone','go back to sleep','none','none'],0)
+    new effect([6,7,0,0],['pull out your phone','go back to sleep','none','none'],0),
+    new effect([])
 ];
 
 var functions = [
@@ -142,13 +151,26 @@ var functions = [
         effectHappens(5);
     },
     function(){
-        if(player.hasSoul){
-            player.location = findRoom().mirrorRoom;
-        }else{
-            player.location = player.mirrorLocation;
+
+        if(player.inDream){ //if you're in the dream world
+            console.log("you're in a dream!");
+            if(player.location == player.mirrorLocation){ //if you're in the parallel room
+                player.hasSoul = true;
+            }
+        }else { //if you're in the real world
+            console.log("you're in reality!");
+            if (player.hasSoul) { //if you're carrying your dreamself
+                player.location = findRoom().mirrorRoom;
+            } else {//if you're seperate from your dreamself
+                player.location = player.mirrorLocation;
+            }
+            player.hasSoul = false;
+            player.inDream = true;
+            console.log(player.hasSoul);
+            console.log(player.inDream);
         }
+
         $('.options').hide();
-        player.location = findRoom().navigation[this.id];
         var img = findRoom().img;
         document.body.style.background = "url(" + img + ") ";
         document.body.style.backgroundSize = 'cover';
@@ -171,7 +193,6 @@ var functions = [
 
         }
         console.log('7happened');
-        reuse();
     },
     function(){
         rooms[0].introId = 11;
