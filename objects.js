@@ -39,7 +39,8 @@ var player={
     parallel:1000,
     bff: '',
     hasSoul: true,
-    mirrorLocation: 0,
+    mirrorLocation:0,
+    dreamLocation: 7,
     inDream: false
 };
 
@@ -76,20 +77,20 @@ var rooms = [
     new room(8,'jungle temple',['n','n','n','barred door',1,'barred door'],1,true,11,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
     new room(9,'arcade',['n','n','n','barred door',1,'barred door'],1,true,12,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
     new room(10,'ice caves',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
-    new room(12,'start mirror',['n','n','n','barred door',8,'barred door'],1,true,0,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'),
-    new room(13,'courtyard mirror',[9,10,11,12,7,13],1,true,1,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'),
-    new room(14,'egyptian temple mirror',['n','n','n','barred door',8,'barred door'],1,true,2,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
-    new room(15,'exit mirror',['n','n','n','barred door',8,'barred door'],1,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
-    new room(16,'jungle temple mirror',['n','n','n','barred door',8,'barred door'],1,true,4,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
-    new room(17,'arcade mirror',['n','n','n','barred door',8,'barred door'],1,true,5,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
-    new room(18,'ice caves mirror',['n','n','n','barred door',8,'barred door'],1,true,6,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
+    new room(12,'start mirror',['barred door',8,'barred door','n','n','n'],2,true,0,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'),
+    new room(13,'courtyard mirror',[9,10,11,12,7,13],2,true,1,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'),
+    new room(14,'egyptian temple mirror',['n','n','n','barred door',8,'barred door'],2,true,2,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
+    new room(15,'exit mirror',['n','n','n','barred door',8,'barred door'],2,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
+    new room(16,'jungle temple mirror',['n','n','n','barred door',8,'barred door'],2,true,4,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
+    new room(17,'arcade mirror',['n','n','n','barred door',8,'barred door'],2,true,5,'http://www.roadtovr.com/wp-content/uploads/2016/08/new-retro-arcade-neon-launch-8.jpg'),
+    new room(18,'ice caves mirror',['n','n','n','barred door',8,'barred door'],2,true,6,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg')
 ];
 
 var effects = [
     //effect([functionId],buttonNames,oneUse)
     new effect([0,0,0,0],['none','none','none','none'],0),
     new effect([6,7,0,0],['pull out your phone','go back to sleep','none','none'],0),
-    new effect([])
+    new effect([7,0,0,0],['wake up','none','none','none'],0)
 ];
 
 var functions = [
@@ -137,11 +138,8 @@ var functions = [
     },
     function(){
         player.bff = prompt('Who did you forget at that party?');
-        console.log(intros[3]);
         intros[3].description = 'damn! I need to find '+ player.bff + ". Dude, where did I leave them?";
-        console.log(intros[3]);
         effectHappens(3);
-        console.log(player.bff);
         console.log('5happened');
     },
     function(){
@@ -154,20 +152,25 @@ var functions = [
 
         if(player.inDream){ //if you're in the dream world
             console.log("you're in a dream!");
-            if(player.location == player.mirrorLocation){ //if you're in the parallel room
+            player.inDream = false;
+            player.dreamLocation = player.location;
+            console.log(player.mirrorLocation);
+            console.log(findRoom().mirrorLocation);
+            if(player.mirrorLocation == findRoom().mirrorLocation){
                 player.hasSoul = true;
+                console.log('you got your soul!');
             }
+            player.location = player.mirrorLocation;
         }else { //if you're in the real world
             console.log("you're in reality!");
-            if (player.hasSoul) { //if you're carrying your dreamself
+            player.mirrorLocation = player.location;
+            if(player.hasSoul){
                 player.location = findRoom().mirrorRoom;
-            } else {//if you're seperate from your dreamself
-                player.location = player.mirrorLocation;
+            } else{
+                player.location = player.dreamLocation
             }
-            player.hasSoul = false;
             player.inDream = true;
-            console.log(player.hasSoul);
-            console.log(player.inDream);
+            player.hasSoul = false
         }
 
         $('.options').hide();
