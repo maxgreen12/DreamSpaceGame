@@ -62,7 +62,8 @@ $(document).ready(function(){
     });
 
     $('li').click(function(){
-        if(document.getElementById(this.id).innerHTML != 'barred door'){
+        $('li').hide();
+        if(document.getElementById(this.id).innerHTML != ('barred door' || 'blocked doorway'|| 'locked door')){
             $('li').each(function() {
                 if(document.getElementById(this.id).innerHTML == 'barred door') {
                     if(this.id == 0) {
@@ -109,7 +110,7 @@ $(document).ready(function(){
 
             }
         } else{
-            $('#roomText').text('that door is bared, dude.');
+            $('#roomText').text('that is a '+ document.getElementById(this.id).innerHTML +', dude.');
         }
     });
 });
