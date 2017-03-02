@@ -55,7 +55,7 @@ var intros = [
     new Intro("Despite the temperature, this room is oddly calming.",[2,2,2,2],['blank','none','none','none']), //12
     new Intro('The room is full of shifting fog and strange sculptures. All of their faces seem strangely familiar. In the center of the space is an angel atop a fountain.',[2,2,2,2],['what is this place?','this mist is weird.','none','none']), //13
     new Intro('You  stumble into a damp room. The walls are covered in murals, that seem to be moving and silently talking amongst themselves.',[2,2,2,2],['blank','none','none','none']), //14
-    new Intro('blank',[2,2,2,2],['blank','none','none','none']), //15
+    new Intro('You grasp the artifact. Immediately there is a deep sense of dread, and your world shifts before your eyes.',[13,13,13,13],['blank','none','none','none']), //15
     new Intro("The place you arrive in feels strange... It feels like you're at the core of something giant and all incompassing. The air is thin.",[2,2,2,2],['blank','none','none','none']), //16
     new Intro('"wow", the space is dominated by an intriguing painting. The colors dance across the walls and you are mesmorised',[2,2,2,2],['blank','none','none','none']), //17
     new Intro('blank',[2,2,2,2],['blank','none','none','none']), //18
@@ -67,7 +67,7 @@ var intros = [
 var rooms = [
     //room(introId,description,[lf,f,rf,rb,b,lb],optionId,oldNew,mirrorRoom,img,mp3)
     new Room(0,'there is an opening against the wall',['barred door',1,'barred door','n','n','n'],1,false,7,'https://s-media-cache-ak0.pinimg.com/originals/86/1b/da/861bda7d76e58f26f657789cf79893d8.jpg'), //0
-    new Room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,'locked door',4,'locked door',0,'locked door'],1,true,8,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
+    new Room(4,'you find yourself in a courtyard that has six rooms surrounding it, and a nice fountain in the middle',[2,'barred door',4,'barred door',0,'barred door'],1,true,8,'https://upload.wikimedia.org/wikipedia/en/3/3a/Freer_Courtyard.jpg'), //1
     new Room(6,'bugs scurry back and fourth across the temple floor.',['n','n','n','barred door',1,'barred door'],1,true,9,'http://people.ucls.uchicago.edu/~bwildem/art_hist_laba/egypt/rockcut.png'),
     new Room(7,'exit',['n','n','n','barred door',1,'barred door'],1,true,10,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
     new Room(8,'The grove still exudes a timeless presence.',['n','n','n','barred door',1,5],1,true,11,'https://davidlazarphoto.com/amp/wp-content/uploads/2012/07/18-David-Lazar-Jungle-Temple.jpg'),
@@ -75,7 +75,7 @@ var rooms = [
     new Room(10,'The chill of ice is ever penetrating.',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
     new Room(12,'There is a perfumey, hotel room smell about.',[13,'barred door','barred door','n','n','n'],2,true,0,'https://texasstation.sclv.com/~/media/Images/Page-Background-Images/Texas/TS_Hotel_King_lowrez.jpg?h=630&la=en&w=1080'),
     new Room(13,'around you are five mystical doorways. straight forward there is a locked door.',[9,'barred door','barred door','barred door','barred door','barred door'],2,true,1,'http://grandinroad.scene7.com/is/image/frontgate/BLOG_fountain?defaultImage=NoImageIcon_GR&fmt=png&fit=crop,1&wid=600&hei=460&resMode=sharp2&op_usm=1.4,0.4,0,0'),
-    new Room(14,'the eyes of the paintings almost, follow you.',['n','n','n',13,8,'barred door'],2,true,2,'https://www.askideas.com/media/42/Adorable-Art-Work-On-Wall-Inside-The-Egyptian-Pyramid.jpg'),
+    new Room(14,'the eyes of the paintings almost, follow you. There is an artifact in the corner.',['n','n','n',13,8,'barred door'],2,true,2,'https://www.askideas.com/media/42/Adorable-Art-Work-On-Wall-Inside-The-Egyptian-Pyramid.jpg'),
     new Room(15,'exit mirror',['n','n','n','barred door','barred door','barred door'],2,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
     new Room(16,'this place seems odly normal in contrast.',['n','n','n','barred door','barred door','barred door'],2,true,4,'http://conceptartempire.com/images/06/372/19-jungle-temple-concept-art-interior.jpg'),
     new Room(17,'The paint seems to bleed with life.',['n','n','n','barred door','barred door','barred door'],2,true,5,'http://data.whicdn.com/images/3366741/large.jpg'),
@@ -88,7 +88,7 @@ var effects = [
     new effect([6,7,0,0],['pull out your phone','none','none','none'],0),
     new effect([7,0,0,0],['wake up','none','none','none'],0),
     new effect([9,0,0,0],['go back to sleep','none','none','none'],0),
-    new effect([])
+    new effect([7,12,0,0],['wake up','pick up the artifact','none','none'],1)
 ];
 
 var functions = [
@@ -191,6 +191,7 @@ var functions = [
             }
 
         }
+        console.log('7happened');
         $('li').each(function() {
             if(document.getElementById(this.id).innerHTML == 'barred door') {
                 if(this.id == 0) {
@@ -213,7 +214,6 @@ var functions = [
                 }
             }
         });
-        console.log('7happened');
     },
     function(){
         rooms[0].introId = 11;
@@ -280,6 +280,16 @@ var functions = [
                 }
             }
         });
+
+    },
+    function(){
+        effectHappens(15);
+        console.log('12 happend');
+        reuse();
+    },
+    function(){
+        code this!
+        console.log('13 happened');
     }
 ];
 // function(itemNameInQuotes,introNumber){

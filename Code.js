@@ -63,7 +63,7 @@ $(document).ready(function(){
 
     $('li').click(function(){
         $('li').hide();
-        if(document.getElementById(this.id).innerHTML != ('barred door' || 'blocked doorway'|| 'locked door')){
+        if(document.getElementById(this.id).innerHTML != 'barred door'){
             $('li').each(function() {
                 if(document.getElementById(this.id).innerHTML == 'barred door') {
                     if(this.id == 0) {
