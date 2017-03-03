@@ -75,7 +75,7 @@ var rooms = [
     new Room(10,'The chill of ice is ever penetrating.',['n','n','n','barred door',1,'barred door'],1,true,13,'http://www.glacierguides.is/sites/default/files/2000x1333_ice_caves_crystal_cave_gallery_2_einarolafurmatthiasson.jpg'),
     new Room(12,'There is a perfumey, hotel room smell about.',[13,'barred door','barred door','n','n','n'],2,true,0,'https://texasstation.sclv.com/~/media/Images/Page-Background-Images/Texas/TS_Hotel_King_lowrez.jpg?h=630&la=en&w=1080'),
     new Room(13,'around you are five mystical doorways. straight forward there is a locked door.',[9,'barred door','barred door','barred door','barred door','barred door'],2,true,1,'http://grandinroad.scene7.com/is/image/frontgate/BLOG_fountain?defaultImage=NoImageIcon_GR&fmt=png&fit=crop,1&wid=600&hei=460&resMode=sharp2&op_usm=1.4,0.4,0,0'),
-    new Room(14,'the eyes of the paintings almost, follow you. There is an artifact in the corner.',['n','n','n',13,8,'barred door'],2,true,2,'https://www.askideas.com/media/42/Adorable-Art-Work-On-Wall-Inside-The-Egyptian-Pyramid.jpg'),
+    new Room(14,'the eyes of the paintings almost, follow you. There is an artifact in the corner.',['n','n','n',13,8,'barred door'],4,true,2,'https://www.askideas.com/media/42/Adorable-Art-Work-On-Wall-Inside-The-Egyptian-Pyramid.jpg'),
     new Room(15,'exit mirror',['n','n','n','barred door','barred door','barred door'],2,true,3,'http://faculty.wartburg.edu/lindgrene/DSCN4645.JPG'),
     new Room(16,'this place seems odly normal in contrast.',['n','n','n','barred door','barred door','barred door'],2,true,4,'http://conceptartempire.com/images/06/372/19-jungle-temple-concept-art-interior.jpg'),
     new Room(17,'The paint seems to bleed with life.',['n','n','n','barred door','barred door','barred door'],2,true,5,'http://data.whicdn.com/images/3366741/large.jpg'),
@@ -101,23 +101,10 @@ var functions = [
         console.log('1 HAPPEND');
     },
     function(){
-        $('#roomText').text(findRoom().description);
         $('#navigation').show();
         $('.options').hide();
         player.inIntro = false;
-        document.getElementById("6").innerHTML = findEffect().button[0];
-        document.getElementById("7").innerHTML = findEffect().button[1];
-        document.getElementById("8").innerHTML = findEffect().button[2];
-        document.getElementById("9").innerHTML = findEffect().button[3];
-        $('.options').each(function(){
-            if(findEffect().oneUse != 2){
-                $('.options').each(function(){
-                    if(document.getElementById(this.id).innerHTML != 'none'){
-                        $(this).show();
-                    }
-                });
-            }
-        });
+        setEffects();
         console.log('2 HAPPEND');
     },
     function(){
@@ -177,64 +164,15 @@ var functions = [
             introHappens();
             findRoom().oldNew = false;
         }else{
-            $('#roomText').text(findRoom().description);
-            document.getElementById("6").innerHTML = findEffect().button[0];
-            document.getElementById("7").innerHTML = findEffect().button[1];
-            document.getElementById("8").innerHTML = findEffect().button[2];
-            document.getElementById("9").innerHTML = findEffect().button[3];
-            if(findEffect().oneUse != 2){
-                $('.options').each(function(){
-                    if(document.getElementById(this.id).innerHTML != 'none'){
-                        $(this).show();
-                    }
-                });
-            }
-
+            setEffects();
         }
         console.log('7happened');
-        $('li').each(function() {
-            if(document.getElementById(this.id).innerHTML == 'barred door') {
-                if(this.id == 0) {
-                    document.getElementById(this.id).innerHTML = 'left forward';
-                }
-                if(this.id == 1) {
-                    document.getElementById(this.id).innerHTML = 'straight forward';
-                }
-                if(this.id == 2) {
-                    document.getElementById(this.id).innerHTML = 'right forward';
-                }
-                if(this.id == 3) {
-                    document.getElementById(this.id).innerHTML = 'right back';
-                }
-                if(this.id == 4) {
-                    document.getElementById(this.id).innerHTML = 'straight back';
-                }
-                if(this.id == 5) {
-                    document.getElementById(this.id).innerHTML = 'left back';
-                }
-            }
-        });
+        returnBarredDoor();
     },
     function(){
         rooms[0].introId = 11;
         rooms[0].oldNew = true;
-        $('#roomText').text(findRoom().description);
-        $('#navigation').show();
-        $('.options').hide();
-        player.inIntro = false;
-        document.getElementById("6").innerHTML = findEffect().button[0];
-        document.getElementById("7").innerHTML = findEffect().button[1];
-        document.getElementById("8").innerHTML = findEffect().button[2];
-        document.getElementById("9").innerHTML = findEffect().button[3];
-        $('.options').each(function(){
-            if(findEffect().oneUse != 2){
-                $('.options').each(function(){
-                    if(document.getElementById(this.id).innerHTML != 'none'){
-                        $(this).show();
-                    }
-                });
-            }
-        });
+        functions[2]();
         console.log('8 HAPPEND')
     },
     function(){
@@ -258,28 +196,7 @@ var functions = [
         player.inDream = true;
         player.hasSoul = false;
         console.log('11 HAPPENED');
-        $('li').each(function() {
-            if(document.getElementById(this.id).innerHTML == 'barred door') {
-                if(this.id == 0) {
-                    document.getElementById(this.id).innerHTML = 'left forward';
-                }
-                if(this.id == 1) {
-                    document.getElementById(this.id).innerHTML = 'straight forward';
-                }
-                if(this.id == 2) {
-                    document.getElementById(this.id).innerHTML = 'right forward';
-                }
-                if(this.id == 3) {
-                    document.getElementById(this.id).innerHTML = 'right back';
-                }
-                if(this.id == 4) {
-                    document.getElementById(this.id).innerHTML = 'straight back';
-                }
-                if(this.id == 5) {
-                    document.getElementById(this.id).innerHTML = 'left back';
-                }
-            }
-        });
+        returnBarredDoor();
 
     },
     function(){
@@ -288,7 +205,9 @@ var functions = [
         reuse();
     },
     function(){
-        code this!
+        player.location = 11;
+        functions[2]();
+
         console.log('13 happened');
     }
 ];

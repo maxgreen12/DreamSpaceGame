@@ -27,7 +27,60 @@ var reuse = function(){
 var findParallel = function(){
     return player.parallel
 };
+var returnBarredDoor = function(){
+    $('li').each(function() {
+        if(document.getElementById(this.id).innerHTML == 'barred door') {
+            if(this.id == 0) {
+                document.getElementById(this.id).innerHTML = 'left forward';
+            }
+            if(this.id == 1) {
+                document.getElementById(this.id).innerHTML = 'straight forward';
+            }
+            if(this.id == 2) {
+                document.getElementById(this.id).innerHTML = 'right forward';
+            }
+            if(this.id == 3) {
+                document.getElementById(this.id).innerHTML = 'right back';
+            }
+            if(this.id == 4) {
+                document.getElementById(this.id).innerHTML = 'straight back';
+            }
+            if(this.id == 5) {
+                document.getElementById(this.id).innerHTML = 'left back';
+            }
+        }
+    });
+};
 
+var setEffects = function(){
+    $('#roomText').text(findRoom().description);
+    document.getElementById("6").innerHTML = findEffect().button[0];
+    document.getElementById("7").innerHTML = findEffect().button[1];
+    document.getElementById("8").innerHTML = findEffect().button[2];
+    document.getElementById("9").innerHTML = findEffect().button[3];
+    if(findEffect().oneUse != 2){
+        $('.options').each(function(){
+            if(document.getElementById(this.id).innerHTML != 'none'){
+                $(this).show();
+            }
+        });
+    }
+};
+
+var makeNewRoom = function(){
+    returnBarredDoor();
+    $('.options').hide();
+    player.location = findRoom().navigation[this.id];
+    var img = findRoom().img;
+    document.body.style.background = "url(" + img + ") ";
+    document.body.style.backgroundSize = 'cover';
+    if(findRoom().oldNew){
+        introHappens();
+        findRoom().oldNew = false;
+    }else{
+        setEffects();
+    }
+};
 $(document).ready(function(){
     
     $('.options').hide();
@@ -64,51 +117,7 @@ $(document).ready(function(){
     $('li').click(function(){
         $('li').hide();
         if(document.getElementById(this.id).innerHTML != 'barred door'){
-            $('li').each(function() {
-                if(document.getElementById(this.id).innerHTML == 'barred door') {
-                    if(this.id == 0) {
-                        document.getElementById(this.id).innerHTML = 'left forward';
-                    }
-                    if(this.id == 1) {
-                        document.getElementById(this.id).innerHTML = 'straight forward';
-                    }
-                    if(this.id == 2) {
-                        document.getElementById(this.id).innerHTML = 'right forward';
-                    }
-                    if(this.id == 3) {
-                        document.getElementById(this.id).innerHTML = 'right back';
-                    }
-                    if(this.id == 4) {
-                        document.getElementById(this.id).innerHTML = 'straight back';
-                    }
-                    if(this.id == 5) {
-                        document.getElementById(this.id).innerHTML = 'left back';
-                    }
-                }
-            });
-            $('.options').hide();
-            player.location = findRoom().navigation[this.id];
-            var img = findRoom().img;
-            document.body.style.background = "url(" + img + ") ";
-            document.body.style.backgroundSize = 'cover';
-            if(findRoom().oldNew){
-                introHappens();
-                findRoom().oldNew = false;
-            }else{
-                $('#roomText').text(findRoom().description);
-                document.getElementById("6").innerHTML = findEffect().button[0];
-                document.getElementById("7").innerHTML = findEffect().button[1];
-                document.getElementById("8").innerHTML = findEffect().button[2];
-                document.getElementById("9").innerHTML = findEffect().button[3];
-                if(findEffect().oneUse != 2){
-                    $('.options').each(function(){
-                        if(document.getElementById(this.id).innerHTML != 'none'){
-                            $(this).show();
-                        }
-                    });
-                }
-
-            }
+            makeNewRoom();
         } else{
             $('#roomText').text('that is a '+ document.getElementById(this.id).innerHTML +', dude.');
         }
