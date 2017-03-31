@@ -18,12 +18,6 @@ var inIntro = function(){
     return player.inIntro
 };
 
-var reuse = function(){
-    if(findEffect().oneUse == 1) {
-        findEffect().oneUse = 2
-    }
-};
-
 var findParallel = function(){
     return player.parallel
 };
@@ -58,19 +52,16 @@ var setEffects = function(){
     document.getElementById("7").innerHTML = findEffect().button[1];
     document.getElementById("8").innerHTML = findEffect().button[2];
     document.getElementById("9").innerHTML = findEffect().button[3];
-    if(findEffect().oneUse != 2){
-        $('.options').each(function(){
-            if(document.getElementById(this.id).innerHTML != 'none'){
-                $(this).show();
-            }
-        });
-    }
+    $('.options').each(function(){
+        if(document.getElementById(this.id).innerHTML != 'none'){
+            $(this).show();
+        }
+    });
 };
 
 var makeNewRoom = function(){
     returnBarredDoor();
     $('.options').hide();
-    player.location = findRoom().navigation[this.id];
     var img = findRoom().img;
     document.body.style.background = "url(" + img + ") ";
     document.body.style.backgroundSize = 'cover';
@@ -81,6 +72,7 @@ var makeNewRoom = function(){
         setEffects();
     }
 };
+
 $(document).ready(function(){
     
     $('.options').hide();
@@ -117,6 +109,7 @@ $(document).ready(function(){
     $('li').click(function(){
         $('li').hide();
         if(document.getElementById(this.id).innerHTML != 'barred door'){
+            player.location = findRoom().navigation[this.id];
             makeNewRoom();
         } else{
             $('#roomText').text('that is a '+ document.getElementById(this.id).innerHTML +', dude.');
